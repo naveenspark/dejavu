@@ -1,98 +1,109 @@
 # Deja Vu
 
-> Stop debugging the same bug twice.
+> Persistent memory for Claude Code mistakes.
 
-A [Claude Code](https://docs.anthropic.com/en/docs/claude-code) slash command that captures post-mortems after debugging sessions, tags them for search, and surfaces them before you waste two hours on a problem you already solved.
+Claude Code forgets everything between sessions. You fix a mistake, close the session, start a new one, and Claude makes the same mistake again. Wrong approach. Ignored the docs. Confidently wrong about something it was confidently wrong about last time.
 
-Inspired by [EveryInc's Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin) plugin by Kieran Klaassen — specifically the `/compound-docs` skill that captures solved problems as structured documentation. Deja Vu takes the core insight (each fix should teach the system) and strips away the parts that don't survive contact with real usage: YAML validation gates, 13-enum category schemas, and per-problem directory hierarchies. What's left is one file, freeform tags, and grep.
+I started tracking these in a `LEARNINGS.md` file and it grew to hundreds of lines of painful lessons. I hoped Claude would pay attention to it, but it never did. Then I found [EveryInc's Compound Engineering](https://github.com/EveryInc/compound-engineering-plugin) plugin, which solves this exact problem. It's pretty neat, but it felt heavy: YAML schemas, category directories, npm packages. I wanted something simpler.
 
-## How it works
+Deja Vu is two things:
 
-**Capture:** After finishing significant work, run `/dejavu`. It asks what worked, what hurt, and what you'd do differently. Writes a tagged entry to `LEARNINGS.md`.
+1. **`/dejavu`** is a slash command you run after Claude screws up (and it will, over and over again). It captures what happened, tags it, and writes it to `LEARNINGS.md`.
+2. **"facepalm"** is a word you type when Claude is doing something dumb again. Claude stops what it's doing, searches its file of shame for the relevant lesson, and course-corrects on the spot.
 
-**Retrieve:** Before debugging, grep your learnings for the error or symptom. The tags make this fast — `grep -i "tags:.*env-var" LEARNINGS.md` finds every time you've been burned by environment variables.
-
-**Promote:** When the same tag appears in 3+ entries, Deja Vu suggests promoting it to a permanent rule in your `CLAUDE.md`. Recurring mistakes become guardrails automatically.
+That's it. One file, freeform tags, and grep.
 
 ## Install
 
 ```bash
-# Copy the slash command
+# 1. Copy the slash command (capture mode)
 cp dejavu.md ~/.claude/commands/
 
-# Create your learnings file
+# 2. Create your learnings file
 cp LEARNINGS-template.md ~/.claude/LEARNINGS.md
 ```
 
-That's it. Run `/dejavu` after your next debugging session.
+Then add this to your `CLAUDE.md` so Claude knows what "facepalm" means:
+
+```markdown
+## Rules
+
+When the user says "facepalm":
+STOP. Something you're doing has been done wrong before.
+Search ~/.claude/LEARNINGS.md for error messages, symptoms, or keywords
+from whatever just went wrong. Show matching entries. If a past lesson
+applies, follow it immediately.
+
+Before starting any task, check LEARNINGS.md for relevant past mistakes.
+```
+
+Two behaviors, three files.
 
 ## Usage
 
+**After Claude screws up:**
+
 ```
 /dejavu                        # Full reflection (5 questions)
-/dejavu "redis connection bug" # Specific topic
+/dejavu "auth migration"       # Specific topic
 /dejavu --quick                # 3 questions, fast capture
 ```
 
-## What you get
+**When Claude is doing it again:**
 
-Each entry looks like this:
-
-```markdown
-## 2026-02-04 - Redis Connection Pool Exhaustion
-**Tags:** redis, connection-pool, silent-failure, timeout
-
-**Context:** App started timing out under load. No errors in logs.
-
-**Worked Well:**
-- Thread dump immediately showed 200 blocked connections waiting on pool
-
-**Pain Points:**
-- Default pool size (10) was never increased from starter template
-- No monitoring on pool utilization — failed silently for weeks
-
-**Changes Made:**
-- Increased pool to 50, added pool utilization to /health endpoint
-
-**Future Improvements:**
-- [ ] Alert when pool utilization > 80%
-- [ ] Add connection pool size to deploy checklist
+```
+you: "facepalm"
 ```
 
-Next time you see a timeout with no errors, `grep -i "tags:.*silent-failure"` finds this instantly.
+Claude stops, searches the learnings file for whatever it's screwing up, and shows you the relevant past entry. You don't need to remember the tags. Claude figures out the search terms from context.
 
-## How it differs from compound-docs
+## What you get
 
-[Compound Engineering](https://every.to/guides/compound-engineering) is a comprehensive system — plan/work/review/compound workflow, multi-agent code review, YAML-validated problem schemas, category directory trees. It's well-designed for teams building large applications.
+Each `/dejavu` entry looks like this:
 
-Deja Vu is for practitioners who want the compounding insight without the infrastructure:
+```markdown
+## 2026-02-04 - Claude Ignored Project Docs Again
+**Tags:** docs-ignored, false-confidence, verification
+
+**Context:** Asked Claude to integrate with an API. It confidently wrote
+the integration without reading the existing docs, got the auth flow
+completely wrong, and wasted 45 minutes.
+
+**Worked Well:**
+- Caught it when the first request returned 401
+
+**Pain Points:**
+- Claude never checked the README that had the exact auth pattern
+- Said "Fixed!" twice before actually fixing it
+
+**Changes Made:**
+- Added rule to CLAUDE.md: read target docs before writing integration code
+
+**Future Improvements:**
+- [ ] Add a pre-task checklist for integration work
+```
+
+Next time Claude starts writing integration code without reading the docs, "facepalm" finds this instantly.
+
+## Pattern promotion
+
+When the same tag shows up in 3+ entries, `/dejavu` suggests promoting it to a permanent rule in your `CLAUDE.md`. Recurring mistakes become guardrails automatically.
+
+Claude has ignored your docs three times? That's not a learning anymore. That's a rule.
+
+## How it differs from Compound Engineering
+
+[Compound Engineering](https://every.to/guides/compound-engineering) is a comprehensive system. YAML-validated schemas, category directories, multi-agent review. Well-designed for teams building big applications.
+
+Deja Vu is for everyday vibe coders who want the compounding insight without the infrastructure:
 
 | | Compound Engineering | Deja Vu |
 |---|---|---|
-| **Structure** | YAML frontmatter, category directories, schema validation | Freeform tags, one flat file, grep |
-| **Search** | Category-based retrieval | `grep -i "tags:.*keyword"` |
-| **Scope** | Full workflow (plan/work/review/compound) | Capture + retrieve only |
-| **Pattern detection** | Manual cross-referencing | Auto-suggests promotion at 3+ tag occurrences |
-| **Install** | Plugin with npm package | Copy one file |
+| **Structure** | YAML frontmatter, category directories | Freeform tags, one flat file |
+| **Search** | Category-based retrieval | `grep` + "facepalm" trigger |
+| **Pattern detection** | Manual cross-referencing | Auto-suggests promotion at 3+ occurrences |
+| **Install** | Plugin with npm package | Copy one file, paste one block |
 | **Files created** | One per problem, organized in directories | One file, append-only |
-
-The tradeoff is clear: compound-docs scales better for large teams and complex projects. Deja Vu is simpler and more likely to actually get used.
-
-## The behavioral change that matters
-
-The command itself is table stakes. The real value is the habit:
-
-**Before you start debugging, check if you've solved this before.**
-
-Add this to your `CLAUDE.md` or agent instructions:
-
-```
-Before starting any debugging session, grep LEARNINGS.md for the
-error message, symptom, or domain. Past post-mortems often contain
-the exact fix.
-```
-
-This one line makes 600+ lines of accumulated wisdom actually useful.
 
 ## License
 

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deja Vu</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+  }
+
+  .card {
+    width: 1200px;
+    height: 675px;
+    background: #0a0a0a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 44px;
+  }
+
+  .header { text-align: center; }
+
+  .header h1 {
+    font-size: 52px;
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    margin-bottom: 8px;
+    color: #f0f0f0;
+  }
+
+  .header p {
+    font-size: 17px;
+    color: #999;
+    font-weight: 400;
+  }
+
+  .flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    width: 680px;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    border-radius: 12px;
+    background: #161616;
+    border: 1px solid #2a2a2a;
+    width: 300px;
+    flex-shrink: 0;
+  }
+
+  .step-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .step-icon svg { width: 20px; height: 20px; }
+
+  .step-icon.red    { background: rgba(255, 80, 70, 0.15); }
+  .step-icon.orange { background: rgba(255, 160, 60, 0.15); }
+  .step-icon.purple { background: rgba(180, 130, 255, 0.15); }
+  .step-icon.green  { background: rgba(80, 200, 100, 0.15); }
+
+  .step-text { display: flex; flex-direction: column; gap: 3px; }
+
+  .step-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #e8e8e8;
+    letter-spacing: -0.2px;
+  }
+
+  .step-title code {
+    font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+    color: #ffa63c;
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  .step-desc {
+    font-size: 12.5px;
+    color: #888;
+    line-height: 1.4;
+  }
+
+  .arrow svg {
+    width: 24px;
+    height: 10px;
+    display: block;
+  }
+
+  /* Time break - SpongeBob time card inspired */
+  .time-break {
+    padding: 20px 0;
+    text-align: center;
+    width: 100%;
+  }
+
+  .time-card {
+    display: inline-block;
+    background: linear-gradient(135deg, #1a3a5c 0%, #0f2744 50%, #1a3a5c 100%);
+    border: 2px solid #2a5a8a;
+    border-radius: 6px;
+    padding: 12px 48px;
+    position: relative;
+    box-shadow: 0 0 20px rgba(26, 58, 92, 0.4);
+  }
+
+  .time-card::before,
+  .time-card::after {
+    content: '✿';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 11px;
+    color: rgba(100, 160, 220, 0.3);
+  }
+
+  .time-card::before { left: 14px; }
+  .time-card::after { right: 14px; }
+
+  .time-card span {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 16px;
+    font-style: italic;
+    color: #d4e4f4;
+    letter-spacing: 0.5px;
+  }
+
+  .promotion {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background: rgba(80, 200, 100, 0.08);
+    border: 1px solid rgba(80, 200, 100, 0.2);
+  }
+
+  .promotion-dot {
+    width: 5px;
+    height: 5px;
+    background: #50c864;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(80, 200, 100, 0.5);
+  }
+
+  .promotion-text {
+    font-size: 13px;
+    color: #50c864;
+    font-weight: 500;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="header">
+    <h1>Deja Vu</h1>
+    <p>Persistent memory for Claude Code mistakes</p>
+  </div>
+
+  <div class="flow">
+    <div class="row">
+      <div class="step">
+        <div class="step-icon red">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ff5046" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="9"/>
+            <line x1="9" y1="9" x2="15" y2="15"/>
+            <line x1="15" y1="9" x2="9" y2="15"/>
+          </svg>
+        </div>
+        <div class="step-text">
+          <div class="step-title">Claude screws up</div>
+          <div class="step-desc">Wrong key, ignored docs, false confidence</div>
+        </div>
+      </div>
+      <div class="arrow">
+        <svg viewBox="0 0 24 10"><path d="M0,5 L16,5" stroke="#444" stroke-width="1.5" fill="none"/><polygon points="16,2 24,5 16,8" fill="#444"/></svg>
+      </div>
+      <div class="step">
+        <div class="step-icon orange">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#ffa63c" stroke-width="2" stroke-linecap="round">
+            <polyline points="4,17 10,11 4,5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+        </div>
+        <div class="step-text">
+          <div class="step-title"><code>/dejavu</code></div>
+          <div class="step-desc">Capture the mistake and tag it</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="time-break">
+      <div class="time-card">
+        <span>2 hours later...</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="step">
+        <div class="step-icon purple">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#b482ff" stroke-width="2" stroke-linecap="round">
+            <path d="M21,15a2,2,0,0,1-2,2H7l-4,4V5a2,2,0,0,1,2-2H19a2,2,0,0,1,2,2Z"/>
+          </svg>
+        </div>
+        <div class="step-text">
+          <div class="step-title">"This API is returning 500s"</div>
+          <div class="step-desc">You describe a problem to Claude</div>
+        </div>
+      </div>
+      <div class="arrow">
+        <svg viewBox="0 0 24 10"><path d="M0,5 L16,5" stroke="#444" stroke-width="1.5" fill="none"/><polygon points="16,2 24,5 16,8" fill="#444"/></svg>
+      </div>
+      <div class="step">
+        <div class="step-icon green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#50c864" stroke-width="2" stroke-linecap="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </div>
+        <div class="step-text">
+          <div class="step-title">Claude checks past mistakes</div>
+          <div class="step-desc">Greps your tags, finds the lesson</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="promotion">
+    <div class="promotion-dot"></div>
+    <div class="promotion-text">3+ same tag → promote to permanent rule</div>
+  </div>
+
+</div>
+</body>
+</html>

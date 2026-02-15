@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Shaming</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  .card {
+    width: 1200px;
+    height: 675px;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    padding: 60px;
+    position: relative;
+  }
+
+  /* Terminal window */
+  .terminal {
+    width: 480px;
+    background: #1a1a1a;
+    border-radius: 12px;
+    border: 1px solid #333;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .terminal-bar {
+    height: 36px;
+    background: #252525;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    gap: 8px;
+    border-bottom: 1px solid #333;
+  }
+
+  .terminal-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+
+  .dot-red { background: #ff5f57; }
+  .dot-yellow { background: #febc2e; }
+  .dot-green { background: #28c840; }
+
+  .terminal-title {
+    flex: 1;
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+    margin-right: 52px;
+  }
+
+  .terminal-body {
+    padding: 20px;
+    font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    min-height: 280px;
+  }
+
+  .prompt {
+    color: #50c864;
+  }
+
+  .prompt-arrow {
+    color: #50c864;
+  }
+
+  .claude-label {
+    color: #cc8844;
+    font-weight: bold;
+  }
+
+  .text-dim {
+    color: #666;
+  }
+
+  .text-normal {
+    color: #ccc;
+  }
+
+  .text-error {
+    color: #ff5046;
+  }
+
+  .text-strike {
+    color: #666;
+    text-decoration: line-through;
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 16px;
+    background: #ccc;
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  /* Shame sign */
+  .sign-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .sign {
+    width: 420px;
+    background: #f4e8c1;
+    border-radius: 4px;
+    padding: 40px 44px;
+    transform: rotate(1.5deg);
+    box-shadow:
+      0 4px 20px rgba(0,0,0,0.4),
+      inset 0 0 40px rgba(139, 119, 80, 0.08);
+    position: relative;
+  }
+
+  /* Tape strips */
+  .tape {
+    position: absolute;
+    width: 80px;
+    height: 28px;
+    background: rgba(200, 200, 180, 0.45);
+    border: 1px solid rgba(180, 170, 140, 0.3);
+  }
+
+  .tape-top-left {
+    top: -10px;
+    left: 30px;
+    transform: rotate(-15deg);
+  }
+
+  .tape-top-right {
+    top: -8px;
+    right: 30px;
+    transform: rotate(12deg);
+  }
+
+  .sign-text {
+    font-family: 'Caveat', cursive;
+    font-size: 34px;
+    font-weight: 700;
+    color: #2a2a2a;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  .sign-text .emphasis {
+    color: #c0392b;
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    text-underline-offset: 4px;
+  }
+
+  .sign-sig {
+    margin-top: 14px;
+    text-align: center;
+    font-family: 'Caveat', cursive;
+    font-size: 28px;
+    font-weight: 500;
+    color: #555;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <img src="claude-shaming.png" alt="Claude with googly eyes" style="width: 580px; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,0.5);" />
+
+  <div class="sign-area">
+    <div class="sign">
+      <div class="tape tape-top-left"></div>
+      <div class="tape tape-top-right"></div>
+      <div class="sign-text">
+        I said it was fixed.<br>
+        <span class="emphasis">It wasn't fixed.</span>
+      </div>
+      <div class="sign-sig">— Claude</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
