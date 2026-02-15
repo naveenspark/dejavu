@@ -24,7 +24,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 44px;
+    gap: 40px;
   }
 
   .header { text-align: center; }
@@ -35,19 +35,21 @@
     letter-spacing: -1.5px;
     margin-bottom: 8px;
     color: #f0f0f0;
+    line-height: 1.1;
   }
 
   .header p {
     font-size: 17px;
     color: #999;
     font-weight: 400;
+    line-height: 1.4;
   }
 
   .flow {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0;
+    gap: 32px;
     width: 680px;
   }
 
@@ -63,11 +65,12 @@
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 18px 20px;
+    padding: 19px 20px;
     border-radius: 12px;
     background: #161616;
     border: 1px solid #2a2a2a;
     width: 300px;
+    height: 80px;
     flex-shrink: 0;
   }
 
@@ -79,22 +82,34 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    font-size: 22px;
+    line-height: 1;
   }
 
-  .step-icon svg { width: 20px; height: 20px; }
+  .step-icon svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+  }
 
   .step-icon.red    { background: rgba(255, 80, 70, 0.15); }
   .step-icon.orange { background: rgba(255, 160, 60, 0.15); }
   .step-icon.purple { background: rgba(180, 130, 255, 0.15); }
   .step-icon.green  { background: rgba(80, 200, 100, 0.15); }
 
-  .step-text { display: flex; flex-direction: column; gap: 3px; }
+  .step-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+  }
 
   .step-title {
     font-size: 15px;
     font-weight: 600;
     color: #e8e8e8;
     letter-spacing: -0.2px;
+    line-height: 1.3;
   }
 
   .step-title code {
@@ -110,6 +125,11 @@
     line-height: 1.4;
   }
 
+  .step-title em {
+    font-style: italic;
+    color: #ff5046;
+  }
+
   .arrow svg {
     width: 24px;
     height: 10px;
@@ -118,9 +138,9 @@
 
   /* Time break - SpongeBob time card inspired */
   .time-break {
-    padding: 20px 0;
     text-align: center;
     width: 100%;
+    margin: 0;
   }
 
   .time-card {
@@ -128,7 +148,7 @@
     background: linear-gradient(135deg, #1a3a5c 0%, #0f2744 50%, #1a3a5c 100%);
     border: 2px solid #2a5a8a;
     border-radius: 6px;
-    padding: 12px 48px;
+    padding: 14px 48px;
     position: relative;
     box-shadow: 0 0 20px rgba(26, 58, 92, 0.4);
   }
@@ -141,6 +161,7 @@
     transform: translateY(-50%);
     font-size: 11px;
     color: rgba(100, 160, 220, 0.3);
+    line-height: 1;
   }
 
   .time-card::before { left: 14px; }
@@ -152,6 +173,7 @@
     font-style: italic;
     color: #d4e4f4;
     letter-spacing: 0.5px;
+    line-height: 1;
   }
 
   .promotion {
@@ -227,14 +249,10 @@
 
     <div class="row">
       <div class="step">
-        <div class="step-icon purple">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#b482ff" stroke-width="2" stroke-linecap="round">
-            <path d="M21,15a2,2,0,0,1-2,2H7l-4,4V5a2,2,0,0,1,2-2H19a2,2,0,0,1,2,2Z"/>
-          </svg>
-        </div>
+        <div class="step-icon red">😤</div>
         <div class="step-text">
-          <div class="step-title">"This API is returning 500s"</div>
-          <div class="step-desc">You describe a problem to Claude</div>
+          <div class="step-title">Claude screws up <em>again</em></div>
+          <div class="step-desc"><code>❯ facepalm</code></div>
         </div>
       </div>
       <div class="arrow">
