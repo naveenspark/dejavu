@@ -1,6 +1,6 @@
 # Learnings
 
-Insights captured via `/dejavu` to stop debugging the same problem twice.
+Claude's mistakes, captured via `/dejavu`. Say "facepalm" to search.
 
 ---
 
